@@ -4,13 +4,16 @@
 #include <vector>
 
 std::vector<std::vector<wxTextCtrl*>> allBoxes;
+wxFont correctNumberfont((wxFontInfo(38).Bold()));
+wxFont font(wxFontInfo(38));
 
 enum IDs {
 	SOLVE_BUTTON = 2,
 	NEW_GRID_BUTTON = 3,
 	RESET_GRID_BUTTON = 4,
 	CUSTOM_GRID_BUTTON = 5,
-	CLEAR_GRID_BUTTON = 6
+	CLEAR_GRID_BUTTON = 6,
+	CHECK_GRID_BUTTON = 7
 };
 
 wxBEGIN_EVENT_TABLE(Main, wxFrame)
@@ -19,6 +22,7 @@ wxBEGIN_EVENT_TABLE(Main, wxFrame)
 	EVT_BUTTON(RESET_GRID_BUTTON, Main::onResetGridClicked)
 	EVT_BUTTON(CUSTOM_GRID_BUTTON, Main::onCustomGridClicked)
 	EVT_BUTTON(CLEAR_GRID_BUTTON, Main::onClearGridClicked)
+	EVT_BUTTON(CHECK_GRID_BUTTON, Main::onCheckGridClicked)
 wxEND_EVENT_TABLE()
 
 Main::Main(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) {
@@ -26,11 +30,9 @@ Main::Main(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) {
 	wxButton* solveBtn = new wxButton(panel, SOLVE_BUTTON, "Solve", wxPoint(620, 20), wxSize(170, 60));
 	wxButton* newGridBtn = new wxButton(panel, NEW_GRID_BUTTON, "New Grid", wxPoint(620, 100), wxSize(170, 60));
 	wxButton* resetGridBtn = new wxButton(panel, RESET_GRID_BUTTON, "Reset Grid", wxPoint(620, 180), wxSize(170, 60));
-	//wxButton* customGridBtn = new wxButton(panel, CUSTOM_GRID_BUTTON, "Solve Custom Grid", wxPoint(620, 260), wxSize(170, 60));
-	//wxButton* clearGridBtn = new wxButton(panel, CLEAR_GRID_BUTTON, "Clear Grid", wxPoint(620, 340), wxSize(170, 60));
-
-	wxFont wrongNumberfont((wxFontInfo(38).Bold()));
-	wxFont font(wxFontInfo(38));
+	wxButton* checkGridBtn = new wxButton(panel, CHECK_GRID_BUTTON, "Check Grid", wxPoint(620, 260), wxSize(170, 60));
+	//wxButton* customGridBtn = new wxButton(panel, CUSTOM_GRID_BUTTON, "Solve Custom Grid", wxPoint(620, 340), wxSize(170, 60));
+	//wxButton* clearGridBtn = new wxButton(panel, CLEAR_GRID_BUTTON, "Clear Grid", wxPoint(620, 420), wxSize(170, 60));
 
 	wxTextCtrl* zeroZero = new wxTextCtrl(panel, wxID_ANY, "", wxPoint(20, 20), wxSize(60, 60), wxTE_CENTRE);
 	zeroZero->SetFont(font);
@@ -327,6 +329,15 @@ void Main::clearDisplayedGrid() {
 void Main::onSolveClicked(wxCommandEvent& evt) {
 	for (int i = 0; i < 9; i++) {
 		for (int j = 0; j < 9; j++) {
+			wxString correctValue = wxString::Format(wxT("%i"), grid[i][j]);
+			if (correctValue == allBoxes[i][j]->GetValue()) {
+				allBoxes[i][j]->SetFont(font);
+				allBoxes[i][j]->SetForegroundColour(*wxBLACK);
+			}
+		}
+	}
+	for (int i = 0; i < 9; i++) {
+		for (int j = 0; j < 9; j++) {
 			wxString value = wxString::Format(wxT("%i"), grid[i][j]);
 			if (value == "0") {
 
@@ -339,6 +350,15 @@ void Main::onSolveClicked(wxCommandEvent& evt) {
 }
 
 void Main::onNewGridClicked(wxCommandEvent& evt) {
+	for (int i = 0; i < 9; i++) {
+		for (int j = 0; j < 9; j++) {
+			wxString correctValue = wxString::Format(wxT("%i"), grid[i][j]);
+			if (correctValue == allBoxes[i][j]->GetValue()) {
+				allBoxes[i][j]->SetFont(font);
+				allBoxes[i][j]->SetForegroundColour(*wxBLACK);
+			}
+		}
+	}
 	wxString value = wxString::Format(wxT("%i"), solved);
 	wxLogStatus(value);
 	resetGrids();
@@ -348,6 +368,15 @@ void Main::onNewGridClicked(wxCommandEvent& evt) {
 }
 
 void Main::onResetGridClicked(wxCommandEvent& evt) {
+	for (int i = 0; i < 9; i++) {
+		for (int j = 0; j < 9; j++) {
+			wxString correctValue = wxString::Format(wxT("%i"), grid[i][j]);
+			if (correctValue == allBoxes[i][j]->GetValue()) {
+				allBoxes[i][j]->SetFont(font);
+				allBoxes[i][j]->SetForegroundColour(*wxBLACK);
+			}
+		}
+	}
 	clearDisplayedGrid();
 	for (int i = 0; i < 9; i++) {
 		for (int j = 0; j < 9; j++) {
@@ -397,5 +426,17 @@ void Main::onCustomGridClicked(wxCommandEvent& evt) {
 void Main::onClearGridClicked(wxCommandEvent& evt) {
 	resetGrids();
 	clearDisplayedGrid();
+}
+
+void Main::onCheckGridClicked(wxCommandEvent& evt) {
+	for (int i = 0; i < 9; i++) {
+		for (int j = 0; j < 9; j++) {
+			wxString correctValue = wxString::Format(wxT("%i"), grid[i][j]);
+			if (correctValue == allBoxes[i][j]->GetValue()) {
+				allBoxes[i][j]->SetFont(correctNumberfont);
+				allBoxes[i][j]->SetForegroundColour(*wxGREEN);
+			}
+		}
+	}
 }
 

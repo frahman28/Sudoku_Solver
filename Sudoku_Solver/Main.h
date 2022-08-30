@@ -14,6 +14,7 @@ private:
 	void onResetGridClicked(wxCommandEvent& evt);
 	void onCustomGridClicked(wxCommandEvent& evt);
 	void onClearGridClicked(wxCommandEvent& evt);
+	void onCheckGridClicked(wxCommandEvent& evt);
 	wxDECLARE_EVENT_TABLE();
 };
 
